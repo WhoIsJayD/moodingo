@@ -1,13 +1,20 @@
-import Link from 'next/Link';
+import Head from "next/head";
+import Link from "next/link";
 
 const Nav = () => {
     return (
-
-        <nav className="nav  bg-dark  d-flex justify-content-between">
-            <Link className="nav-link text-light" aria-current="page" href="/">Home</Link>
-            <Link className="nav-link text-light" href="/login">Login</Link>
-            <Link className="nav-link text-light" href="/register">Register</Link>
-        </nav>
+        <div className="nav-container">
+            <Head>
+                <link rel="stylesheet" href="/css/nav.css"/>
+            </Head>
+            <nav className="navbar">
+                <ul className="nav-items">
+                    <Link className="nav-item nav-link" href="/"> Home </Link>
+                    <Link className="nav-item nav-link" href="/login"> Login </Link>
+                    <Link className="nav-item nav-link" href="/register"> Register </Link>
+                </ul>
+            </nav>
+        </div>
     )
 }
 
