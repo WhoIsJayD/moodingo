@@ -2,21 +2,46 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {useState} from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
+import {Button, Modal} from 'antd';
+import router from 'next/router'
+import {SyncOutlined} from '@ant-design/icons';
 
 const Register = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [ok, setOk] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [modalText, setModalText] = useState("You have successfully registered");
+    const [loading, setLoading] = useState(false);
+    const handleOk = () => {
+        setModalText('Redirecting to login page...');
+        setConfirmLoading(true);
+        setTimeout(() => {
+            router.push('/login');
 
-    const handleSubmit = (e) => {
+        }, 2000);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(name, email, password);
-        axios.post("http://localhost:8000/api/register", {
-            name, email, password
-        })
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        try {
+            setLoading(true);
+            const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, {
+                name, email, password
+            })
+            setName("")
+            setEmail("")
+            setPassword("")
+            setOk(data.ok);
+            setLoading(false);
+        } catch (e) {
+            setLoading(false);
+            toast.error(e.response.data)
+        }
     }
+
 
     return (<div className="register">
         <Head>
@@ -41,7 +66,11 @@ const Register = () => {
                                    placeholder="Password"/>
                         </div>
                         <div className="input-box">
-                            <input type="submit" value="Register" href='#'/>
+                            {loading ? <SyncOutlined style={{
+                            fontSize:40,
+                            color: '#fff'}
+                            } rotate={180} spin={true} /> : <input type="submit" value="Register"/>}
+
                         </div>
                     </form>
                 </div>
@@ -49,7 +78,24 @@ const Register = () => {
 
             <Link href="/login" className="btn signup"> Login </Link>
         </div>
-
+        <div className="row">
+            <div className="col">
+                <Modal
+                    open={ok}
+                    onCancel={() => setOk(false)}
+                    title={modalText}
+                    bodyStyle={{
+                        textAlign: 'center', alignContent: 'center'
+                    }}
+                    closable={false}
+                    maskClosable={false}
+                    centered
+                    footer={null}
+                >
+                    <Button type="link" onClick={handleOk}>Login</Button>
+                </Modal>
+            </div>
+        </div>
     </div>)
 }
 export default Register;

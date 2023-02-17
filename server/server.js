@@ -1,10 +1,11 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import {readdirSync} from 'fs';
+
 const morgan = require('morgan');
 require('dotenv').config();
 const app = express();
-const {readdirSync} = require('fs');
 
 //DB
 mongoose.connect(process.env.MONGO_URI)
