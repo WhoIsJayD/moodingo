@@ -46,7 +46,7 @@ const Register = () => {
     return (<div className="register">
         <Head>
             <title>Register</title>
-            <link rel="stylesheet" href="/css/register.css"/>
+            {/*<link rel="stylesheet" href="/css/auth.css"/>*/}
         </Head>
         <div className="container">
             <div className="drop">

@@ -12,7 +12,6 @@ const Forget = () => {
         <div className="forget">
             <Head>
                 <title>Forget</title>
-                <link rel="stylesheet" href="/css/forget.css"/>
             </Head>
             <div className="container">
                 <div className="drop">
